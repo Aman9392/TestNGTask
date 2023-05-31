@@ -1,0 +1,153 @@
+import javax.swing.Spring
+
+plugins {
+    id 'java'
+}
+
+plugins {
+    id 'groovy'
+}
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'org.testng', name: 'testng', version: '7.8.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.3'
+    implementation gradleApi()
+
+}
+
+test {
+    useTestNG()
+}
+
+
+// Task2 Support custom Gradle test tasks
+// Task Defining
+task welcome {
+    group "FirstGroup"
+    description "This is the sapmle gradle test"
+    doLast {
+        print("Welcome To Gradle")
+    }
+}
+
+//-------------------------------------------
+// THis Is the Depends On primary  Task and Make New directory
+tasks.register("hello") {
+    dependsOn primaryTask
+    println "Hello World"
+
+//    exec {
+//        commandLine "mkdir", "newdir"
+//    }
+}
+tasks.register("primaryTask") {
+    println "Hello Primary Task "
+}
+
+//-------------------------------------------
+//This is convert lower case String to upper case
+tasks.register('upper') {
+    doLast {
+        String someString = 'myName'
+        println "Original: $someString"
+        println "Upper case: ${someString.toUpperCase()}"
+    }
+}
+//--------------------------------------------
+// THis Will  print a number 0 to 3 by using time method
+tasks.register('count') {
+    doLast {
+        4.times { print "$it" }
+    }
+}
+
+
+//---------------------------------------------
+// it is flexible register task or Manipulating existing task and also print a number of task depends on Task2 and Task3
+4.times { counter ->
+
+    tasks.register("task$counter") {
+        doLast {
+            println "I am a Task number $counter"
+        }
+    }
+}
+tasks.named('task0') { dependsOn('task2', 'task3') }
+
+//-------------------------------------------
+// . Accessing a task via API - adding behaviour
+tasks.register('Api') {
+    doLast {
+        println 'Hello Earth'
+    }
+}
+tasks.named('Api') {
+    doFirst {
+        println 'Hello Venus'
+    }
+}
+tasks.named('Api') {
+    doLast {
+        println 'Hello Mars'
+    }
+}
+tasks.named('Api') {
+    doLast {
+        println 'Hello Jupiter'
+    }
+}
+
+//-------------------------------------------
+// Grouping Task
+task Task1 {
+    group "taskgroup"
+    doLast {
+        println "This is a task 1."
+    }
+}
+task Task2 {
+    group "taskgroup"
+    doLast {
+        println "This is a task 2."
+    }
+}
+
+//-------------------------------------------
+// This is Skip a Task
+
+task Skip1 {
+    group "taskgroup"
+    doLast {
+        println "This is a task."
+    }
+}
+Skip1.onlyIf {
+    project.hasProperty('doOperation')
+}
+
+
+//-------------------------------------------
+//Enabling and Disabling Tasks
+
+task enableanddisable {
+    doLast {
+        println "this statement should not be printed if the task is disabled."
+    }
+}
+enableanddisable.enabled = false
+
+//-------------------------------------------
+// copy a reports from one directory to another directory
+//
+//task copyReportsForsDirArchive(tyoe: copy ){
+//    from "$buildDir/reports"
+//    into "$buildDir/toArchivs"
+//}

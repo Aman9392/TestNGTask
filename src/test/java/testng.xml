@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+
+    <test name="Parallel Test Suite for Methods " parallel="methods" thread-count="4">
+        <classes>
+            <class name="task2.ParallelMethodTests"/>
+        </classes>
+    </test>
+
+    <test name="Parallel Test Suite for Classes " parallel="classes" thread-count="4">
+        <classes>
+            <class name="task2.ParallelClassesTests"/>
+        </classes>
+    </test>
+
+    <test verbose="2" preserve-order="true" name="/Users/amapawar/Desktop/TestNGTutorial/Task/src/test/java">
+        <classes>
+            <class name="task3.CustomAnnotaionsWithBeforClassandAftertClass">
+                <methods>
+                    <include name="testAddUser"/>
+                    <include name="testRemoveUser"/>
+                </methods>
+            </class>
+            <class name="task3.CustomAnnotationWithBeforeSuiteAndAfterSuite">
+                <methods>
+                    <include name="testUserLogin"/>
+                    <include name="testUserLogout"/>
+                </methods>
+            </class>
+            <class name="task3.CustomAnnotationsWithBeforeAndAfterMethod">
+                <methods>
+                    <include name="testAddUser"/>
+                    <include name="testRemoveUser"/>
+                </methods>
+            </class>
+            <class name="task4.DataProviderTask">
+                <methods>
+                    <include name="testUser"/>
+                </methods>
+            </class>
+        </classes>
+
+    </test>
+</suite>
